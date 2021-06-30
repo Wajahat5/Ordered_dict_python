@@ -1,7 +1,9 @@
 import sys
 
-#Class for each individual node of the red black tree
 class Node():
+    """
+    :description: Class for each individual node of the red black tree
+    """
     def __init__(self, key,value=None):
         self.key=key
         self.value=value
@@ -12,9 +14,12 @@ class Node():
     def __repr__(self):
         return "<key = "+str(self.key)+", value = "+str(self.value)+">"
 
-#The ordered dict implemented as a red black tree
 class OrderedDict():
-    
+    """
+    :description: Class for the ordered dictionary
+    :data_structure: The ordered dict implemented as a red black tree
+    :restriction: All keys must be of the same data type
+    """
     def __init__(self,default=None):
         self.TNULL = Node(0,0) #TNULL refers to the NIL node
         self.TNULL.color = 0
@@ -103,6 +108,11 @@ class OrderedDict():
 
     #returns the next greater key present in dict corresponding to a given value
     def upper_bound(self,n):
+        """
+        :param name: n - key for which upper bound is to be searched
+        :param type: any
+        :return: key value pair 
+        """
         for x in self:
             if x.key>n:
                 self.stack=[]
@@ -111,12 +121,22 @@ class OrderedDict():
 
     #delete all elements of bst
     def clear(self):
+        """
+        :parameters: None
+        :function: clears the dictionary
+        :returns: None
+        """
         for node in self:
             del node
         self.root=self.TNULL
         
     #returns the next smaller key present in dict corresponding to a given value
     def lower_bound(self,n):
+        """
+        :param name: n - key for which lower bound is to be searched
+        :param type: any
+        :return: key value pair 
+        """
         for x in self.reverse_iterate():
             if x.key<n:
                 self.stack=[]
@@ -125,6 +145,9 @@ class OrderedDict():
     
     # Balancing the tree after deletion
     def delete_fix(self, x):
+        """
+        :function: Rebalance tree after delete operation
+        """
         while x != self.root and x.color == 0:
             if x == x.parent.left:
                 s = x.parent.right
@@ -185,6 +208,9 @@ class OrderedDict():
 
     # Node deletion
     def delete_node_helper(self, node, key):
+        """
+        :function: Deletes a node
+        """
         z = self.TNULL
         while node != self.TNULL:
             if node.key == key:
@@ -229,6 +255,9 @@ class OrderedDict():
 
     # Balance the tree after insertion
     def fix_insert(self, k):
+        """
+        :function: Rebalances tree after insert operation
+        """
         while k.parent.color == 1:
             if k.parent == k.parent.parent.right:
                 u = k.parent.parent.left
@@ -265,6 +294,9 @@ class OrderedDict():
 
     #returns the smallest key of dict
     def smallest(self):
+        """
+        :function: returns the smallest key of dicionary
+        """
         node=self.root
         while node.left and node.left != self.TNULL:
             node = node.left
@@ -275,6 +307,9 @@ class OrderedDict():
 
     #returns biggest key of dict
     def biggest(self):
+        """
+        :function: returns the biggest key of dicionary
+        """
         node=self.root
         while node.right and node.right != self.TNULL:
             node = node.right
@@ -348,6 +383,12 @@ class OrderedDict():
 
     #insertion of key value pair
     def insert(self, key,value):
+        """
+        :param names: key, value
+        :param types: any
+        :function: Inserts new element
+        :returns: None
+        """
         if self.length==0:
             if type(key) in [list, dict,OrderedDict]:
                 raise Exception("Key data type can't be list or another dictionary.")
@@ -398,10 +439,20 @@ class OrderedDict():
 
     #deletes a key-value pair from dict
     def pop(self, key):
+        """
+        :param name: key
+        :param type: any
+        :returns: None
+        """
         self.delete_node_helper(self.root, key)
 
     #returns the kth smallest key (along with value)
     def ksmallUtil(self,root,k,ksmall):
+        """
+        :param names: root, k, ksmall
+        :param types: Node, int, list of size 1
+        :returns: None
+        """
         if root==self.TNULL or ksmall[0] or k[0]<0: return
         self.ksmallUtil(root.left,k,ksmall)
         k[0]-=1
@@ -410,6 +461,12 @@ class OrderedDict():
         self.ksmallUtil(root.right,k,ksmall)
         
     def KSmallest(self, k): 
+        """
+        :param name: k
+        :param type: int
+        :function: Returns kth smallest key
+        :returns: key value pair
+        """
         if self.length<k or k<1:
             raise Exception('k should be between 1 and size of dict')
             return
@@ -419,6 +476,11 @@ class OrderedDict():
 
     #returns the kth largest key (along with value)
     def klargeUtil(self,root,k,klarge):
+        """
+        :param names: root, k, klarge
+        :param types: Node, int, list of size 1
+        :returns: None
+        """
         if root==self.TNULL or klarge[0] or k[0]<0: return
         self.klargeUtil(root.right,k,klarge)
         k[0]-=1
@@ -427,6 +489,12 @@ class OrderedDict():
         self.klargeUtil(root.left,k,klarge)
         
     def KLargest(self, k):
+        """
+        :param name: k
+        :param type: int
+        :function: Returns kth largest key
+        :returns: key value pair
+        """
         if self.length<k or k<1:
             raise Exception('k should be between 1 and size of dict')
             return
